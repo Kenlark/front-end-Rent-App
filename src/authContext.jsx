@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const checkUserStatus = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/users/me",
+          "https://marvelous-swan-eee602.netlify.app/users/me",
           { withCredentials: true }
         );
         if (response.data) {

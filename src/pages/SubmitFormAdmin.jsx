@@ -3,8 +3,8 @@ import { useLoaderData, useNavigation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const allImages = "http://localhost:5000/api/v1/images";
-const allCars = "http://localhost:5000/api/v1/cars";
+const allImages = "https://marvelous-swan-eee602.netlify.app/images";
+const allCars = "https://marvelous-swan-eee602.netlify.app/cars";
 
 export const loader = async () => {
   try {

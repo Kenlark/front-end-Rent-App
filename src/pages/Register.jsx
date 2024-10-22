@@ -34,7 +34,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/users/register",
+        "https://marvelous-swan-eee602.netlify.app/users/register",
         {
           email,
           password,

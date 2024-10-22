@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
 
-const allCars = "http://localhost:5000/api/v1/cars";
+const allCars = "https://marvelous-swan-eee602.netlify.app/cars";
 
 export const loader = async () => {
   try {
