@@ -11,8 +11,8 @@ import carSeat from "../assets/images/car-seat-_2_.png";
 import fuelType from "../assets/images/gas-pump-solid.svg";
 import horsePower from "../assets/images/motor-svgrepo-com.png";
 
-const allCarsUrl = `${API_BASE_URL}/api/v1/users/me`;
-const allRentsUrl = `${API_BASE_URL}/api/v1/users/me`;
+const allCarsUrl = `${API_BASE_URL}/api/v1/cars`;
+const allRentsUrl = `${API_BASE_URL}/api/v1/rent`;
 
 Modal.setAppElement("#root");
 
