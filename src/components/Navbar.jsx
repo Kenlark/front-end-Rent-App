@@ -4,6 +4,7 @@ import { useAuth } from "../authContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 import house from "../assets/images/iconmonstr-home-6.svg";
 import car from "../assets/images/car-solid.svg";
@@ -23,12 +24,9 @@ function Navbar() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/users/me",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
+          withCredentials: true,
+        });
 
         if (response.data) {
           setIsLoggedIn(true);
@@ -47,7 +45,7 @@ function Navbar() {
     try {
       // Appel API de déconnexion
       await axios.post(
-        "http://localhost:5000/api/v1/users/logout",
+        `${API_BASE_URL}/api/v1/users/me`,
         {},
         { withCredentials: true }
       );
@@ -98,12 +96,9 @@ function Navbar() {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/users/me",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
+          withCredentials: true,
+        });
         if (response.data.role === "admin") {
           setIsAdmin(true);
         }

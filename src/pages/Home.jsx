@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import { Link } from "react-router-dom";
 import { faqData } from "../data.js";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 import Glass from "../assets/images/loupe.png";
 import gear from "../assets/images/gear-solid.svg";
@@ -18,8 +19,8 @@ import ChevronDown from "../assets/images/iconmonstr-arrow-65-240.png";
 import ChevronUp from "../assets/images/iconmonstr-arrow-66-240.png";
 import ChevronRight from "../assets/images/iconmonstr-arrow-63-240.png";
 
-const allCarsUrl = "http://localhost:5000/api/v1/cars";
-const allRentsUrl = "http://localhost:5000/api/v1/rent";
+const allCarsUrl = `${API_BASE_URL}/api/v1/cars`;
+const allRentsUrl = `${API_BASE_URL}/api/v1/rent`;
 
 export const loader = async () => {
   try {
@@ -53,7 +54,7 @@ const Home = () => {
   useEffect(() => {
     // Simuler la récupération des données depuis une API
     const fetchCars = async () => {
-      const response = await fetch("http://localhost:5000/api/v1/cars"); // URL de votre API
+      const response = await fetch(`${API_BASE_URL}/api/v1/cars`); // URL de votre API
       const data = await response.json();
       setCars(data.allCars);
 

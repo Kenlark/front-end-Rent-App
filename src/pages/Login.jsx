@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useAuth } from "../authContext.jsx";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 import logoGoogle from "../assets/images/icons8-google.svg";
 import logoApple from "../assets/images/icons8-apple.svg";
@@ -29,7 +30,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/users/login",
+        `${API_BASE_URL}/api/v1/users/login`,
         {
           email,
           password,
@@ -75,7 +76,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5000/api/v1/reset-password/request-reset",
+        `${API_BASE_URL}/api/v1/reset-password/request-reset`,
         {
           email,
         },
@@ -103,12 +104,9 @@ const Login = () => {
     }
 
     try {
-      await axios.post(
-        `http://localhost:5000/api/v1/reset-password/reset${token}`,
-        {
-          password,
-        }
-      );
+      await axios.post(`${API_BASE_URL}/api/v1/reset-password/reset${token}`, {
+        password,
+      });
       toast.success("Mot de passe réinitialisé avec succès");
       setTimeout(() => {
         navigate("/login");

@@ -5,14 +5,15 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import Filters from "../components/Filter.jsx";
 import { useAuth } from "../authContext.jsx";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 import gear from "../assets/images/gear-solid.svg";
 import carSeat from "../assets/images/car-seat-_2_.png";
 import fuelType from "../assets/images/gas-pump-solid.svg";
 import horsePower from "../assets/images/motor-svgrepo-com.png";
 
-const allCarsUrl = "http://localhost:5000/api/v1/cars";
-const allRentsUrl = "http://localhost:5000/api/v1/rent";
+const allCarsUrl = `${API_BASE_URL}/api/v1/users/me`;
+const allRentsUrl = `${API_BASE_URL}/api/v1/users/me`;
 
 Modal.setAppElement("#root");
 
@@ -207,7 +208,7 @@ function AllCars() {
 
       if (rentToUpdate) {
         await axios.put(
-          `http://localhost:5000/api/v1/rent/${rentToUpdate._id}`,
+          `${API_BASE_URL}/api/v1/rent/${rentToUpdate._id}`,
           {
             status: updatedCarData.rentStatus,
             pricePerDay: updatedCarData.pricePerDay,
@@ -217,7 +218,7 @@ function AllCars() {
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/v1/cars/${currentCar._id}`,
+        `${API_BASE_URL}/api/v1/cars/${currentCar._id}`,
         updatedCarData,
         { withCredentials: true }
       );
@@ -257,7 +258,7 @@ function AllCars() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/v1/cars/${carToDelete}`, {
+      await axios.delete(`${API_BASE_URL}/api/v1/cars/${carToDelete}`, {
         withCredentials: true,
       });
 

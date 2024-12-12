@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ const ContactForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/emails", {
+      const response = await axios.post(`${API_BASE_URL}/api/v1/emails`, {
         from: formData.from,
         to: "kenzokerachi@hotmail.fr",
         subject: formData.subject,
