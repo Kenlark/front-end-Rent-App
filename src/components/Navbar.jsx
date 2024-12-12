@@ -99,7 +99,7 @@ function Navbar() {
         const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
           withCredentials: true,
         });
-
+        console.log("Données utilisateur :", response.data);
         if (response.data?.role === "admin") {
           setIsAdmin(true);
         } else {
