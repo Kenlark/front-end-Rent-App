@@ -22,7 +22,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    const checkAuthStatusAndRole = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
           withCredentials: true,
@@ -31,14 +31,22 @@ function Navbar() {
         if (response.data) {
           setIsLoggedIn(true);
           setUser(response.data);
+
+          // Vérifiez si l'utilisateur est admin
+          if (response.data.role === "admin") {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
         }
       } catch (error) {
         setIsLoggedIn(false);
         setUser(null);
+        setIsAdmin(false);
       }
     };
 
-    checkAuthStatus();
+    checkAuthStatusAndRole();
   }, []);
 
   const handleLogout = async () => {
@@ -90,28 +98,6 @@ function Navbar() {
   useEffect(() => {
     if (!isLoggedIn) {
       setIsOpen(false);
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    const checkAdmin = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
-          withCredentials: true,
-        });
-        if (response.data.role === "admin") {
-          setIsAdmin(true);
-        }
-      } catch (error) {
-        console.error("Erreur lors de la vérification du rôle:", error);
-        setIsAdmin(false);
-      }
-    };
-
-    if (isLoggedIn) {
-      checkAdmin();
-    } else {
-      setIsAdmin(false);
     }
   }, [isLoggedIn]);
 
