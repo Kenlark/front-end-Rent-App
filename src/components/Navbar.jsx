@@ -99,8 +99,11 @@ function Navbar() {
         const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
           withCredentials: true,
         });
-        if (response.data.role === "admin") {
+
+        if (response.data?.role === "admin") {
           setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
         }
       } catch (error) {
         console.error("Erreur lors de la vérification du rôle:", error);
