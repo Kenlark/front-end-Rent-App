@@ -1,0 +1,171 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --navbar-color: #060b20;
+  --white: #fff;
+  --ff-primary: "Montserrat";
+  --bcg-body: #fafbff;
+  --borderRadius: 0.25rem;
+  --letterSpacing: 0.1em;
+  --transition: 0.3s ease-in-out all;
+  --max-width: 1180px;
+  --fixed-width: 600px;
+  --view-width: 90vw;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.card-filter {
+  width: 100%;
+  max-width: 500px;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow-1);
+  margin: 0 auto;
+}
+
+.card-filter .header-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-filter h3 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.card-filter .button-filter {
+  border: none;
+  background: transparent;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.card-filter .button-filter:hover {
+  color: #0056b3;
+}
+
+.button-outline {
+  border: 1px solid #ddd;
+  background: transparent;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.button-outline:hover {
+  background-color: #f0f0f0;
+}
+
+.slider-container-filter {
+  margin-top: 16px;
+}
+
+.slider-label-filter {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.slider-value-filter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.flex-filter {
+  display: flex;
+}
+
+.flex-wrap-filter {
+  flex-wrap: wrap;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.button-outline.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-block-start: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.filter-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.filter-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.underline {
+  margin-block-start: 0.2rem;
+  width: 465px;
+  height: 1px;
+  background-color: #9e9e9e;
+}

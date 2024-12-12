@@ -12,6 +12,11 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import AllCars from "./pages/AllCars.jsx";
 import ContactForm from "./pages/ContactForm.jsx";
+import SingleCar from "./pages/SingleCar.jsx";
+import { loader as SingleCarLoader } from "./pages/SingleCar.jsx";
+import FormRent from "./pages/FormRent.jsx";
+import { loader as FormRentLoader } from "./pages/FormRent.jsx";
+import { loader as HomeLoader } from "./pages/Home.jsx";
 
 function ReactRouter() {
   const router = createBrowserRouter([
@@ -23,6 +28,7 @@ function ReactRouter() {
         {
           index: true,
           element: <Home />,
+          loader: HomeLoader,
         },
         {
           path: "cars",
@@ -44,6 +50,16 @@ function ReactRouter() {
         {
           path: "contact",
           element: <ContactForm />,
+        },
+        {
+          path: "cars/:id",
+          element: <SingleCar />,
+          loader: SingleCarLoader,
+        },
+        {
+          path: "rent",
+          element: <FormRent />,
+          loader: FormRentLoader,
         },
       ],
     },

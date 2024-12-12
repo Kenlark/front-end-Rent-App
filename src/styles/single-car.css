@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --navbar-color: #060b20;
+  --white: #fff;
+  --ff-primary: "Montserrat";
+  --bcg-body: #fafbff;
+  --borderRadius: 0.25rem;
+  --letterSpacing: 0.1em;
+  --transition: 0.3s ease-in-out all;
+  --max-width: 1180px;
+  --fixed-width: 600px;
+  --view-width: 90vw;
+  --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.single-car-container {
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 14rem);
+}
+
+.car-details-singlecar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.car-details-singlecar p img {
+  margin-inline-end: 0.5rem;
+}
+
+.single-car-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  position: relative;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.carousel img {
+  width: 90%;
+  border-radius: var(--borderRadius);
+}
+
+.car-image-singlecar {
+  width: 90%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.carousel-button {
+  border: transparent;
+  font-size: 2rem;
+  margin: 0.5rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.dot {
+  height: 0.6rem;
+  width: 0.6rem;
+  margin-inline-start: 0.4rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: #4a6aff;
+}
+
+.btn-padding {
+  padding: 1rem;
+}
+
+.btn-redirect-container {
+  color: var(--white);
+  border-radius: var(--borderRadius);
+  border: transparent;
+  background-color: #5774ff;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #3355ff;
+}
+
+.slick-next {
+  left: 95%;
+}
+
+.slick-prev {
+  left: -8%;
+}

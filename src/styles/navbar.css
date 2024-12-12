@@ -57,12 +57,20 @@ ul {
   cursor: pointer;
 }
 
+.navbar-wrapper {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--navbar-color);
-  height: 5.7rem;
+  height: 5rem;
+  position: relative;
 }
 
 .flex-navbar {
@@ -178,6 +186,7 @@ ul {
 .menu-open {
   display: block;
   margin-inline-end: 10rem;
+  z-index: 999;
 }
 
 .flex-burger-li {
@@ -188,7 +197,7 @@ ul {
   display: flex;
   gap: 0.75rem;
   flex-direction: column;
-  margin-block-start: 3rem;
+  margin-block-start: 2.8rem;
   animation: slideIn 0.3s forwards;
 }
 
@@ -217,11 +226,6 @@ ul {
   margin-block-end: 1rem;
 }
 
-.edit-user-profile-link {
-  text-decoration: none;
-  color: var(--white);
-}
-
 .user-mail {
   margin-block-end: 0.3rem;
 }
@@ -235,10 +239,10 @@ ul {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 117%;
+  width: 107%;
   height: 1px;
   background-color: #d8d8d8;
-  margin-inline-start: -1.05rem;
+  margin-inline-start: -0.45rem;
 }
 
 .underline-logout {
@@ -250,10 +254,10 @@ ul {
   position: absolute;
   top: 0;
   left: 0;
-  width: 117%;
+  width: 107%;
   height: 1px;
   background-color: #d8d8d8;
-  margin-inline-start: -1.05rem;
+  margin-inline-start: -0.45rem;
 }
 
 .flex-burger-li > a:first-of-type {
@@ -293,4 +297,277 @@ ul {
   cursor: pointer;
   transition: var(--transition);
   filter: invert(1);
+}
+
+.create-car {
+  position: absolute;
+  margin-block-start: -0.4rem;
+  margin-inline-start: 0.37rem;
+  text-decoration: none;
+  color: var(--white);
+  font-size: 36px;
+}
+
+.circle-create {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #25b867;
+}
+
+.create-form-absolute {
+  position: absolute;
+  right: 0;
+  margin-inline-end: 10.5rem;
+  z-index: 999;
+}
+
+.menu-open ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--navbar-color);
+  position: absolute;
+  top: 3rem;
+  right: 15rem;
+  border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-3);
+  z-index: 1000;
+}
+
+.menu-open ul li {
+  padding: 0.5rem;
+}
+
+.menu-open ul li a:not(.edit-user-profile-link) {
+  text-decoration: none;
+  color: var(--navbar-color);
+  display: block;
+  transition: var(--transition);
+}
+
+.edit-user-profile-link {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.burger-menu {
+  position: relative;
+}
+
+.burger-menu.logged-out {
+  display: none;
+}
+
+.avatar-logged-out {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border: transparent;
+  cursor: pointer;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+}
+
+.mobile-menu-btn img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
+}
+
+.mobile-register,
+.mobile-login {
+  display: none;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .flex-login {
+    margin-inline-end: 1rem;
+  }
+
+  .create-form-absolute {
+    margin-inline-end: 6.5rem;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .burger-menu {
+    display: block;
+  }
+
+  .login {
+    display: none;
+  }
+
+  .register {
+    display: none;
+  }
+
+  .logged-out .flex-avatar {
+    margin-inline-end: 5rem;
+  }
+}
+
+@media (max-width: 830px) {
+  .burger-menu.logged-out {
+    display: block;
+    margin-inline-start: -5rem;
+  }
+}
+
+@media screen and (max-width: 674px) {
+  .burger-menu-avatar {
+    display: block;
+  }
+
+  .avatar {
+    display: none;
+  }
+
+  .btn-chevron {
+    display: none;
+  }
+
+  .create-form-absolute {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+    position: absolute;
+    right: -1.5rem;
+    bottom: -0.6rem;
+  }
+
+  .flex-navbar {
+    margin-inline-start: 1rem;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .navlink {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;
+  }
+
+  .navlink.mobile-menu-open {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    position: fixed;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 5rem);
+    background-color: var(--navbar-color);
+    padding: 1rem;
+    box-shadow: var(--shadow-3);
+    z-index: 999;
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  .navlink.mobile-menu-open .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .navlink.mobile-menu-open .nav-links li {
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .navlink.mobile-menu-open .nav-links li:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .navlink.mobile-menu-open .nav-links li:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .navlink.mobile-menu-open .nav-links li:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .navlink.mobile-menu-open .nav-links li:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .navlink.mobile-menu-open .mobile-login,
+  .navlink.mobile-menu-open .mobile-register {
+    margin-top: 0.5rem;
+  }
+
+  .navlink.mobile-menu-open .mobile-login a,
+  .navlink.mobile-menu-open .mobile-register a {
+    display: block;
+    padding: 0.75rem;
+    color: var(--white);
+    text-decoration: none;
+    border: 1px solid var(--white);
+    border-radius: var(--borderRadius);
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .navlink.mobile-menu-open .mobile-login a:hover,
+  .navlink.mobile-menu-open .mobile-register a:hover {
+    background-color: var(--white);
+    color: var(--navbar-color);
+  }
+
+  /* Active state styles */
+  .navlink.mobile-menu-open .active-btn,
+  .navlink.mobile-menu-open .inactive-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .burger-menu.logged-in {
+    margin-inline-end: 1rem;
+  }
+
+  .navbar-wrapper {
+    overflow-x: hidden;
+  }
 }

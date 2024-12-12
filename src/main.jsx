@@ -12,12 +12,22 @@ import "./styles/all-cars.page.css";
 import "./styles/login.page.css";
 import "./styles/layout.css";
 import "./styles/register.css";
+import "./styles/contact-form.css";
+import "./styles/single-car.css";
+import "react-datepicker/dist/react-datepicker.css";
+import "./styles/filter.css";
+import "./styles/home.css";
+import "./styles/form-rent.css";
+import "./styles/submit-form-admin.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <App />
-      <ToastContainer position="top-center" />
+      <ToastContainer
+        position="top-center"
+        toastStyle={{ textAlign: "center" }}
+      />
     </AuthProvider>
   </StrictMode>
 );

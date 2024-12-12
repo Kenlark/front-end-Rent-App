@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext.jsx";
@@ -33,8 +32,9 @@ const Register = () => {
     e.preventDefault();
 
     try {
+      // 1. Enregistrer l'utilisateur
       const response = await axios.post(
-        "https://marvelous-swan-eee602.netlify.app/users/register",
+        "http://localhost:5000/api/v1/users/register",
         {
           email,
           password,
@@ -51,18 +51,23 @@ const Register = () => {
         }
       );
 
-      toast.success("Inscription réussie !");
+      if (response.status === 201) {
+        toast.success("Inscription réussie !");
 
-      const userResponse = await axios.get(
-        "http://localhost:5000/api/v1/users/me",
-        { withCredentials: true }
-      );
+        if (response.data) {
+          loginUser(response.data);
+        } else {
+          const userResponse = await axios.get(
+            "http://localhost:5000/api/v1/users/me",
+            { withCredentials: true }
+          );
+          loginUser(userResponse.data);
+        }
 
-      loginUser(userResponse.data); // Met à jour l'utilisateur dans le contexte
-
-      setTimeout(() => {
-        navigate("/"); // Redirige après une courte pause
-      }, 2000);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
     } catch (error) {
       console.log(error);
       const errorMessage =
@@ -71,9 +76,29 @@ const Register = () => {
     }
   };
 
-  const handleNextStep = (e) => {
+  const handleNextStep = async (e) => {
     e.preventDefault();
-    setStep(step + 1);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/users/check-email",
+        { email },
+        { withCredentials: true }
+      );
+
+      if (response.data.exists) {
+        toast.error(
+          "Cet email est déjà utilisé. Veuillez utiliser une autre adresse."
+        );
+      } else {
+        setStep(step + 1);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la vérification de l'email :", error);
+      toast.error(
+        "Une erreur est survenue lors de la vérification de l'email."
+      );
+    }
   };
 
   useEffect(() => {
@@ -83,7 +108,7 @@ const Register = () => {
         if (showMessageBirthday) setShowMessageBirthday();
       }, 10000);
 
-      return () => clearTimeout(timer); // Nettoyage du timer pour éviter les fuites de mémoire
+      return () => clearTimeout(timer);
     }
   }, [showMessageAddress, showMessageBirthday]);
 
@@ -132,7 +157,7 @@ const Register = () => {
                 </div>
                 <div className="flex-login-register">
                   <p className="p-register">
-                    S'inscrire avec une adresse e-mail
+                    S&apos;inscrire avec une adresse e-mail
                   </p>
                   <p className="p-register-2">
                     Vous avez déjà un compte ?{" "}
@@ -191,37 +216,54 @@ const Register = () => {
                       type="text"
                       name="lastName"
                       id="lastName"
+                      tabIndex="0"
+                      role="button"
                       required
                       value={lastName}
                       placeholder="ex : Doe"
                       onChange={(e) => setLastName(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ")
+                          setLastName(e.target.value);
+                      }}
                     />
                   </div>
                 </div>
                 <div className="flex-birthday">
                   <label htmlFor="birthDate">
                     Date de naissance{" "}
-                    <img
+                    <button
                       src={information}
                       alt="logo informations"
-                      className="logo-info"
+                      className="sr-only"
+                      name="birthDate"
+                      id="birthDate"
                       onClick={() =>
                         setShowMessageBirthday(!showMessageBirthday)
                       }
                     />
+                    <img
+                      src={information}
+                      className="logo-info"
+                      alt="logo informations"
+                    />
                   </label>
                   {showMessageBirthday ? (
-                    <p className="pop-up-info-1">
+                    <p className="pop-up-info-1" role="alert">
                       Nous collectons votre date de naissance afin de vérifier
-                      votre identité et d'assurer que vous remplissez les
-                      conditions d'âge requises pour la location de véhicules.
-                      Cela nous permet également de garantir que nous vous
-                      proposons des offres et des services adaptés à votre
+                      votre identité et d&apos;assurer que vous remplissez les
+                      conditions d&apos;âge requises pour la location de
+                      véhicules. Cela nous permet également de garantir que nous
+                      vous proposons des offres et des services adaptés à votre
                       profil. Nous nous engageons à protéger vos données
                       personnelles et à les traiter en toute transparence. Pour
-                      plus d'informations sur la manière dont nous utilisons et
-                      protégeons vos données, veuillez consulter notre{" "}
-                      <a href="#">Politique de confidentialité</a>.
+                      plus d&apos;informations sur la manière dont nous
+                      utilisons et protégeons vos données, veuillez consulter
+                      notre
+                      <a href="/terms-and-conditions">
+                        Politique de confidentialité
+                      </a>
+                      .
                     </p>
                   ) : null}
                   <DatePicker
@@ -237,11 +279,18 @@ const Register = () => {
                 <div className="flex-address">
                   <label htmlFor="address">
                     Adresse{" "}
-                    <img
+                    <button
                       src={information}
                       alt="logo informations"
-                      className="logo-info"
+                      name="address"
+                      id="address"
+                      className="sr-only"
                       onClick={() => setShowMessageAddress(!showMessageAddress)}
+                    />
+                    <img
+                      src={information}
+                      className="logo-info"
+                      alt="logo informations"
                     />
                   </label>
                   <input
@@ -256,15 +305,17 @@ const Register = () => {
                   {showMessageAddress ? (
                     <p className="pop-up-info-2">
                       Nous collectons votre date de naissance afin de vérifier
-                      votre identité et d'assurer que vous remplissez les
-                      conditions d'âge requises pour la location de véhicules.
-                      Cela nous permet également de garantir que nous vous
-                      proposons des offres et des services adaptés à votre
+                      votre identité et d&apos;assurer que vous remplissez les
+                      conditions d&apos;âge requises pour la location de
+                      véhicules. Cela nous permet également de garantir que nous
+                      vous proposons des offres et des services adaptés à votre
                       profil. Nous nous engageons à protéger vos données
                       personnelles et à les traiter en toute transparence. Pour
-                      plus d'informations sur la manière dont nous utilisons et
-                      protégeons vos données, veuillez consulter notre{" "}
-                      <a href="#">Politique de confidentialité</a>.
+                      plus d&apos;informations sur la manière dont nous
+                      utilisons et protégeons vos données, veuillez consulter
+                      notre
+                      <a href="/privacy-policy">Politique de confidentialité</a>
+                      .
                     </p>
                   ) : null}
                   <label htmlFor="address2" className="sr-only">
@@ -318,8 +369,12 @@ const Register = () => {
                 </div>
                 <p className="politics">
                   En cliquant sur Créer un compte, je déclare avoir lu et
-                  accepter les <a href="#">Conditions d&apos;utilisations</a> et
-                  la <a href="#">Politique de confidentialité</a>
+                  accepter les
+                  <a href="/terms-and-conditions">
+                    Conditions d&apos;utilisations
+                  </a>
+                  et la
+                  <a href="/privacy-policy">Politique de confidentialité</a>
                 </p>
                 <button type="submit" className="btn-submit-register">
                   Créer un compte

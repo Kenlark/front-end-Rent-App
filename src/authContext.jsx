@@ -1,43 +1,75 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null); // Ajout de l'état pour l'utilisateur
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkUserStatus = async () => {
       try {
         const response = await axios.get(
-          "https://marvelous-swan-eee602.netlify.app/users/me",
+          "http://localhost:5000/api/v1/users/me",
           { withCredentials: true }
         );
-        if (response.data) {
+
+        if (response.data.userID) {
+          // Utilisateur connecté
           setIsLoggedIn(true);
           setUser(response.data);
+        } else {
+          // Utilisateur déconnecté
+          setIsLoggedIn(false);
+          setUser(null);
         }
       } catch (error) {
         console.error(
-          "Erreur lors de la vérification du statut de l'utilisateur",
+          "Erreur lors de la vérification du statut de l'utilisateur :",
           error
         );
         setIsLoggedIn(false);
+        setUser(null); // Assurez-vous de réinitialiser les états en cas d'erreur
       }
     };
 
     checkUserStatus();
   }, []);
 
+  const logoutUser = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/v1/users/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      setIsLoggedIn(false);
+      setUser(null);
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion :", error);
+    }
+  };
+
   const loginUser = (userData) => {
     setUser(userData);
-    setIsLoggedIn(true); // Met à jour l'état d'authentification
+    setIsLoggedIn(true);
   };
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, user, setUser, loginUser }}
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+        loginUser,
+        logoutUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -46,6 +78,10 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   return useContext(AuthContext);
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export { AuthContext };
