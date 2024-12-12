@@ -377,7 +377,7 @@ const SubmitFormAdmin = () => {
                 ))}
               </select>
               <button type="submit" className="submit-button-admin">
-                Soumettre Location
+                Soumettre Location.
               </button>
             </form>
           )}
