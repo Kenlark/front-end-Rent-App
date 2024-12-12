@@ -4,7 +4,6 @@ import { useAuth } from "../authContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 import house from "../assets/images/iconmonstr-home-6.svg";
 import car from "../assets/images/car-solid.svg";
@@ -22,38 +21,33 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuthStatusAndRole = async () => {
+    const checkAuthStatus = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/users/me",
+          {
+            withCredentials: true,
+          }
+        );
 
         if (response.data) {
           setIsLoggedIn(true);
           setUser(response.data);
-
-          // Vérifiez si l'utilisateur est admin
-          if (response.data.role === "admin") {
-            setIsAdmin(true);
-          } else {
-            setIsAdmin(false);
-          }
         }
       } catch (error) {
         setIsLoggedIn(false);
         setUser(null);
-        setIsAdmin(false);
       }
     };
 
-    checkAuthStatusAndRole();
+    checkAuthStatus();
   }, []);
 
   const handleLogout = async () => {
     try {
       // Appel API de déconnexion
       await axios.post(
-        `${API_BASE_URL}/api/v1/users/me`,
+        "http://localhost:5000/api/v1/users/logout",
         {},
         { withCredentials: true }
       );
@@ -98,6 +92,31 @@ function Navbar() {
   useEffect(() => {
     if (!isLoggedIn) {
       setIsOpen(false);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/users/me",
+          {
+            withCredentials: true,
+          }
+        );
+        if (response.data.role === "admin") {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la vérification du rôle:", error);
+        setIsAdmin(false);
+      }
+    };
+
+    if (isLoggedIn) {
+      checkAdmin();
+    } else {
+      setIsAdmin(false);
     }
   }, [isLoggedIn]);
 
