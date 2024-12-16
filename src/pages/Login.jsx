@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Cookies from "js-cookie";
 import { useAuth } from "../authContext.jsx";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -31,22 +30,15 @@ const Login = () => {
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/v1/users/login`,
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true, // Permet à Axios d'envoyer les cookies avec la requête
-        }
+        { email, password },
+        { withCredentials: true }
       );
 
-      const { token, user: loggedUser } = response.data;
+      const { user: loggedUser } = response.data;
 
       if (!loggedUser) {
         throw new Error("L'utilisateur n'est pas défini dans la réponse.");
       }
-
-      Cookies.set("token", token, { expires: 7, path: "/" });
 
       loginUser(loggedUser);
       setIsLoggedIn(true);
@@ -104,7 +96,7 @@ const Login = () => {
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/api/v1/reset-password/reset${token}`, {
+      await axios.post(`${API_BASE_URL}/api/v1/reset-password/reset/${token}`, {
         password,
       });
       toast.success("Mot de passe réinitialisé avec succès");
