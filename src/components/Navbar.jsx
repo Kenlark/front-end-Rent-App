@@ -94,29 +94,24 @@ function Navbar() {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    const checkAdmin = async () => {
+    const checkAuthStatus = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
           withCredentials: true,
         });
-        console.log("Données utilisateur :", response.data);
-        if (response.data?.role === "admin") {
-          setIsAdmin(true);
-        } else {
-          setIsAdmin(false);
+        if (response.data) {
+          setIsLoggedIn(true);
+          setUser(response.data);
+          setIsAdmin(response.data.role === "admin");
         }
       } catch (error) {
-        console.error("Erreur lors de la vérification du rôle:", error);
+        setIsLoggedIn(false);
+        setUser(null);
         setIsAdmin(false);
       }
     };
-
-    if (isLoggedIn) {
-      checkAdmin();
-    } else {
-      setIsAdmin(false);
-    }
-  }, [isLoggedIn]);
+    checkAuthStatus();
+  }, []);
 
   return (
     <>
