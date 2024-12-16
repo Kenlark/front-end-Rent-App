@@ -44,7 +44,7 @@ function Navbar() {
   const handleLogout = async () => {
     try {
       // Appel API de déconnexion
-      await axios.post(`${API_BASE_URL}/api/v1/users/logout`, {
+      await axios.post(`${API_BASE_URL}/api/v1/users/logout`, null, {
         withCredentials: true,
       });
 
