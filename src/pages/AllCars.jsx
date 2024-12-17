@@ -451,7 +451,9 @@ function AllCars() {
               <div className="individual-card">
                 <h2 className="car-name">
                   <div>
-                    {car.brand} {car.model}
+                    <p className="brand-model">
+                      {car.brand} {car.model}
+                    </p>
                   </div>
                   {carRent && (
                     <span key={carRent._id} className="rent-status">
