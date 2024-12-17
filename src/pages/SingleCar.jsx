@@ -40,6 +40,14 @@ const SingleCar = () => {
     slidesToScroll: 1,
     autoplay: false,
     arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          arrows: false,
+        },
+      },
+    ],
   };
 
   return (
@@ -107,6 +115,12 @@ const SingleCar = () => {
               Puissance : {car.horsePower} CV
             </p>
             <p>Prix par jour : {car.pricePerDay} €/jour</p>
+            <button
+              className="edit-button-singlecar"
+              onClick={() => navigate("/rent")}
+            >
+              Réserver
+            </button>
           </div>
         </div>
       </section>
