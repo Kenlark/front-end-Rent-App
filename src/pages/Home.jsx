@@ -269,13 +269,6 @@ const Home = () => {
               dateFormat="dd/MM/yyyy HH:mm" // Format incluant la date et l'heure
             />
           </div>
-
-          <button className="search-button">
-            <span className="search-icon">
-              <img src={Glass} alt="glass search" className="glass" />
-            </span>
-            Rechercher
-          </button>
         </div>
       </div>
 
