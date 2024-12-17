@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import { Link } from "react-router-dom";
 import { faqData } from "../data.js";
+import { useNavigate } from "react-router-dom";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 import Glass from "../assets/images/loupe.png";
@@ -50,11 +51,11 @@ const Home = () => {
   const [models, setModels] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Simuler la récupération des données depuis une API
     const fetchCars = async () => {
-      const response = await fetch(`${API_BASE_URL}/api/v1/cars`); // URL de votre API
+      const response = await fetch(`${API_BASE_URL}/api/v1/cars`);
       const data = await response.json();
       setCars(data.allCars);
 
@@ -326,11 +327,17 @@ const Home = () => {
               </p>
               <p className="align-info-img">{car.pricePerDay} €/jour</p>
             </div>
-            <div className="flex-btn-admin">
+            <div>
               <div className="link-details">
                 <Link to={`/cars/${car._id}`}>
                   <button className="details-button">Voir les détails</button>
                 </Link>
+                <button
+                  className="edit-button"
+                  onClick={() => navigate("/rent")}
+                >
+                  Réserver
+                </button>
               </div>
             </div>
           </div>

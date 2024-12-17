@@ -397,6 +397,13 @@
   text-decoration: none;
 }
 
+.link-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
 @media (max-width: 1540px) {
   .cars-container-home {
     grid-template-columns: repeat(2, minmax(300px, 1fr));
