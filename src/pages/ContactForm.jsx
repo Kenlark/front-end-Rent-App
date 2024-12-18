@@ -33,6 +33,11 @@ const ContactForm = () => {
     });
   };
 
+  if (parseInt(formData.captcha_answer) !== captchaCorrectAnswer) {
+    toast.error("Votre réponse au Captcha est incorrect");
+    return;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
