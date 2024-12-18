@@ -146,7 +146,17 @@ function Navbar() {
                     Nos Véhicules
                   </NavLink>
                 </li>
-                {!isLoggedIn && (
+                {isLoggedIn ? (
+                  <li>
+                    <button
+                      className="inactive-btn logout-btn"
+                      onClick={handleLogout}
+                    >
+                      Se déconnecter
+                    </button>
+                  </li>
+                ) : null}
+                {!isLoggedIn ? (
                   <>
                     <li className="mobile-login">
                       <NavLink
@@ -165,7 +175,7 @@ function Navbar() {
                       </NavLink>
                     </li>
                   </>
-                )}
+                ) : null}
               </ul>
             </nav>
           </div>

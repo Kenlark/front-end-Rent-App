@@ -125,6 +125,22 @@ ul {
   width: 20px;
 }
 
+.logout-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+}
+
+.logout-btn:hover {
+  background-color: var(--white);
+  color: var(--navbar-color);
+  border-radius: var(--borderRadius);
+}
+
 .cars-active .logo-car {
   filter: invert(1);
 }
