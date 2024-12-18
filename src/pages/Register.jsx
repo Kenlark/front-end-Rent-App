@@ -70,14 +70,15 @@ const Register = () => {
         }, 2000);
       }
     } catch (error) {
-      if (error.response.data.errors) {
-        error.response.data.errors.forEach((error) => {
-          toast.error(`${error.path[0]}: ${error.message}`);
-        });
-      } else {
-        const errorMessage =
-          error.response.data.message || "Erreur lors de l'inscription";
-        toast.error(errorMessage);
+      console.error("Erreur lors de l'inscription :", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Erreur inconnue lors de l'inscription.";
+      toast.error(errorMessage);
+
+      // Si le serveur retourne une liste d'erreurs spécifiques
+      if (error.response?.data?.errors) {
+        error.response.data.errors.forEach((err) => toast.error(err.message));
       }
     }
   };
