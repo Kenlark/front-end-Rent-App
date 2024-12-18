@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ContactForm = () => {
+  const [captchaQuestion, setCaptchaQuestion] = useState("");
+  const [captchaCorrectAnswer, setCaptchaCorrectAnswer] = useState(null);
   const [formData, setFormData] = useState({
     from: "",
     subject: "",
     message: "",
   });
+
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 9) + 1;
+    const num2 = Math.floor(Math.random() * 9) + 1;
+    const question = `${num1} + ${num2}`;
+    const correctAnswer = num1 + num2;
+
+    setCaptchaQuestion(question);
+    setCaptchaCorrectAnswer(correctAnswer);
+  };
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -85,6 +101,16 @@ const ContactForm = () => {
             <label htmlFor="message" className="form-label">
               Message :
             </label>
+          </div>
+          <div className="label-captcha-contact">
+            <label>{`Quel est le résultat de : ${captchaQuestion}`}</label>
+            <input
+              type="number"
+              name="captcha_answer"
+              value={formData.captcha_answer}
+              onChange={handleChange}
+              required
+            />
           </div>
           <button type="submit" className="btn-submit-form-contact">
             Envoyer
