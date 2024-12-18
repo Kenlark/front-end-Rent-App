@@ -33,13 +33,13 @@ const ContactForm = () => {
     });
   };
 
-  if (parseInt(formData.captcha_answer) !== captchaCorrectAnswer) {
-    toast.error("Votre réponse au Captcha est incorrect");
-    return;
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (parseInt(formData.captcha_answer) !== captchaCorrectAnswer) {
+      toast.error("Votre réponse au Captcha est incorrect");
+      return;
+    }
 
     try {
       const response = await axios.post(`${API_BASE_URL}/api/v1/emails`, {
