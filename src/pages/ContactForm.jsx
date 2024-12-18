@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ContactForm = () => {
   const [captchaQuestion, setCaptchaQuestion] = useState("");
   const [captchaCorrectAnswer, setCaptchaCorrectAnswer] = useState(null);
+  const [isSending, setIsSending] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     from: "",
     subject: "",
@@ -42,6 +45,7 @@ const ContactForm = () => {
     }
 
     try {
+      setIsSending(true);
       const response = await axios.post(`${API_BASE_URL}/api/v1/emails`, {
         from: formData.from,
         to: "kenzokerachi@hotmail.fr",
@@ -51,9 +55,19 @@ const ContactForm = () => {
 
       if (response.status === 200) {
         toast.success("Email envoyé avec succès!");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+        setFormData({
+          from: "",
+          subject: "",
+          message: "",
+        });
       }
     } catch (error) {
       toast.error("Erreur lors de l'envoi de l'email", error);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -117,8 +131,12 @@ const ContactForm = () => {
               required
             />
           </div>
-          <button type="submit" className="btn-submit-form-contact">
-            Envoyer
+          <button
+            type="submit"
+            className="btn-submit btn-contact"
+            disabled={isSending}
+          >
+            {isSending ? "Envoi en cours..." : "Envoyer"}
           </button>
         </div>
       </section>
