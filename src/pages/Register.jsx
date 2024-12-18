@@ -70,10 +70,15 @@ const Register = () => {
         }, 2000);
       }
     } catch (error) {
-      console.log(error);
-      const errorMessage =
-        error.response?.data?.message || "Erreur lors de l'inscription";
-      toast.error(errorMessage);
+      if (error.response.data.errors) {
+        error.response.data.errors.forEach((error) => {
+          toast.error(`${error.path[0]}: ${error.message}`);
+        });
+      } else {
+        const errorMessage =
+          error.response.data.message || "Erreur lors de l'inscription";
+        toast.error(errorMessage);
+      }
     }
   };
 
