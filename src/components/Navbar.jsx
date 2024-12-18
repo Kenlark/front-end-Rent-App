@@ -217,7 +217,7 @@ function Navbar() {
                           <span className="underline-logout">
                             <button
                               onClick={handleLogout}
-                              className="logout-btn"
+                              className="logout-btn-avatar"
                             >
                               Se déconnecter
                             </button>
