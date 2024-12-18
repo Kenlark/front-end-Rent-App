@@ -27,19 +27,19 @@ function Navbar() {
         const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
           withCredentials: true,
         });
-
         if (response.data) {
           setIsLoggedIn(true);
           setUser(response.data);
+          setIsAdmin(response.data.role === "admin");
         }
       } catch (error) {
         setIsLoggedIn(false);
         setUser(null);
+        setIsAdmin(false);
       }
     };
-
     checkAuthStatus();
-  }, []);
+  }, [isLoggedIn]);
 
   const handleLogout = async () => {
     try {
@@ -90,26 +90,6 @@ function Navbar() {
       setIsOpen(false);
     }
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/v1/users/me`, {
-          withCredentials: true,
-        });
-        if (response.data) {
-          setIsLoggedIn(true);
-          setUser(response.data);
-          setIsAdmin(response.data.role === "admin");
-        }
-      } catch (error) {
-        setIsLoggedIn(false);
-        setUser(null);
-        setIsAdmin(false);
-      }
-    };
-    checkAuthStatus();
-  }, []);
 
   return (
     <>
