@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import DatePicker from "react-datepicker";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
@@ -64,6 +65,8 @@ const FormRent = () => {
     user_phone: "",
     car_model: "",
     license_duration: "",
+    start_date: null,
+    end_date: null,
     message: "",
     captcha_answer: "",
   });
@@ -76,8 +79,53 @@ const FormRent = () => {
     }));
   };
 
+  const handleDateChange = (date, name) => {
+    setFormData((prevData) => {
+      const updatedData = {
+        ...prevData,
+        [name]: date,
+      };
+
+      if (name === "start_date" && date) {
+        // Ajouter 1 jour par défaut à la date de fin si elle est absente ou invalide
+        if (!prevData.end_date || new Date(prevData.end_date) <= date) {
+          const nextDay = new Date(date);
+          nextDay.setDate(nextDay.getDate() + 1);
+          updatedData.end_date = nextDay;
+        }
+      }
+
+      return updatedData;
+    });
+  };
+
+  const formatDateToString = (date) => {
+    if (!date) return null;
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return new Date(date).toLocaleString("fr-FR", options);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formattedStartDate = formatDateToString(formData.start_date);
+    const formattedEndDate = formatDateToString(formData.end_date);
+
+    if (!formattedStartDate || !formattedEndDate) {
+      toast.error("Veuillez remplir les dates correctement.");
+      return;
+    }
+
+    if (formData.end_date <= formData.start_date) {
+      toast.error("La date de fin doit être après la date de début.");
+      return;
+    }
 
     const phone = formData.user_phone;
     const phoneNumber = parsePhoneNumberFromString(phone, "FR");
@@ -112,6 +160,8 @@ const FormRent = () => {
           <p>Téléphone: ${formData.user_phone}</p>
           <p>Modèle de voiture souhaité: ${formData.car_model}</p>
           <p>Ancienneté du permis: ${formData.license_duration}</p>
+          <p>Date de début de location souhaitée: ${formattedStartDate}</p>
+          <p>Date de fin de location souhaitée: ${formattedEndDate}</p>
           <p>Message: ${formData.message}</p>
         `,
       });
@@ -128,6 +178,8 @@ const FormRent = () => {
           user_phone: "",
           car_model: "",
           license_duration: "",
+          start_date: null,
+          end_date: null,
           message: "",
           captcha_answer: "",
         });
@@ -242,6 +294,53 @@ const FormRent = () => {
                   <option>Inférieur à 3 ans</option>
                   <option>Supérieur à 3 ans</option>
                 </select>
+              </div>
+            </div>
+            <div className="input-pair flex-responsive">
+              <div>
+                <label className="start_date">Date de début de location</label>
+                <DatePicker
+                  selected={formData.start_date}
+                  onChange={(date) => handleDateChange(date, "start_date")}
+                  dateFormat="dd/MM/yyyy HH:mm"
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15} // Intervalles de 15 minutes
+                  timeCaption="Heure"
+                  placeholderText="Choisissez une date et une heure"
+                  minDate={new Date()} // Bloque les dates passées
+                  filterTime={(time) => {
+                    const hours = time.getHours();
+                    return hours >= 8 && hours <= 17; // Heures autorisées : 8h à 18h
+                  }}
+                  required
+                />
+              </div>
+              <div>
+                <label className="end_date">Date de fin de location</label>
+                <DatePicker
+                  selected={formData.end_date}
+                  onChange={(date) => handleDateChange(date, "end_date")}
+                  dateFormat="dd/MM/yyyy HH:mm"
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="Heure"
+                  placeholderText="Choisissez une date et une heure"
+                  minDate={
+                    formData.start_date
+                      ? new Date(
+                          new Date(formData.start_date).getTime() +
+                            24 * 60 * 60 * 1000
+                        )
+                      : new Date()
+                  }
+                  filterTime={(time) => {
+                    const hours = time.getHours();
+                    return hours >= 8 && hours <= 17; // Heures autorisées : 8h à 18h
+                  }}
+                  required
+                />
               </div>
             </div>
           </div>
