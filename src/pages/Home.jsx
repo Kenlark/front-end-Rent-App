@@ -45,7 +45,6 @@ const Home = () => {
   const [rent, setRent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openIndex, setOpenIndex] = useState(null);
-  const [filterValue, setFilterValue] = useState("");
   const [availabilityFilter, setAvailabilityFilter] = useState("");
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
@@ -83,10 +82,6 @@ const Home = () => {
       setModels([]);
     }
   }, [selectedBrand, cars]);
-
-  const handleFilterChange = (e) => {
-    setFilterValue(e.target.value);
-  };
 
   const handleAvailabilityChange = (e) => {
     setAvailabilityFilter(e.target.value);
