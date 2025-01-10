@@ -146,6 +146,25 @@ function Navbar() {
                     Nos Véhicules
                   </NavLink>
                 </li>
+                {isAdmin && (
+                  <li className="car">
+                    <NavLink
+                      to="all-users"
+                      className={({ isActive }) =>
+                        isActive ? "active-btn cars-active" : "inactive-btn"
+                      }
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <img
+                        src={car}
+                        alt="Logo Voiture"
+                        className="logo-car"
+                        width={20}
+                      />
+                      Tous les utilisateurs
+                    </NavLink>
+                  </li>
+                )}
                 {isLoggedIn ? (
                   <li>
                     <button

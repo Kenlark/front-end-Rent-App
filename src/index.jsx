@@ -17,6 +17,8 @@ import { loader as SingleCarLoader } from "./pages/SingleCar.jsx";
 import FormRent from "./pages/FormRent.jsx";
 import { loader as FormRentLoader } from "./pages/FormRent.jsx";
 import { loader as HomeLoader } from "./pages/Home.jsx";
+import { loader as AllUsersAdminLoader } from "./pages/AllUsersAdmin.jsx";
+import AllUsersAdmin from "./pages/AllUsersAdmin.jsx";
 
 function ReactRouter() {
   const router = createBrowserRouter([
@@ -60,6 +62,11 @@ function ReactRouter() {
           path: "rent",
           element: <FormRent />,
           loader: FormRentLoader,
+        },
+        {
+          path: "all-users",
+          element: <AllUsersAdmin />,
+          loader: AllUsersAdminLoader,
         },
       ],
     },
