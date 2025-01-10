@@ -20,9 +20,11 @@ export const loader = async () => {
 };
 
 function AllUsersAdmin() {
-  const { isLoggedIn, setUser } = useAuth;
+  const { isLoggedIn, setUser } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const users = useLoaderData();
+  const [sortedUsers, setSortedUsers] = useState(users);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -45,26 +47,53 @@ function AllUsersAdmin() {
     checkAuthStatus();
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    let sortedArray = [...users];
+    if (sortConfig.key) {
+      sortedArray.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    setSortedUsers(sortedArray);
+  }, [users, sortConfig]);
+
+  const requestSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <div>
       {isAdmin ? (
         <>
-          <h1>All Users</h1>
-          <p>Nombre total d'utilisateurs : {users.length}</p>
-          <table>
+          <h1 className="title-all-users">Liste de tous les utilisateurs</h1>
+          <table className="all-users-table">
             <thead>
               <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Adresse</th>
-                <th>Numéro de téléphone</th>
-                <th>Role</th>
-                <th>Date de création du compte</th>
+                <th onClick={() => requestSort("firstName")}>Prénom</th>
+                <th onClick={() => requestSort("lastName")}>Nom</th>
+                <th onClick={() => requestSort("email")}>Email</th>
+                <th onClick={() => requestSort("postalCode")}>Adresse</th>
+                <th onClick={() => requestSort("phoneNumber")}>
+                  Numéro de téléphone
+                </th>
+                <th onClick={() => requestSort("role")}>Role</th>
+                <th onClick={() => requestSort("createdAt")}>
+                  Date de création du compte
+                </th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {sortedUsers.map((user) => (
                 <tr key={user._id}>
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
@@ -77,9 +106,12 @@ function AllUsersAdmin() {
               ))}
             </tbody>
           </table>
+          <p className="total-users">
+            Nombre total d'utilisateurs : {users.length}
+          </p>
         </>
       ) : (
-        <div>Vous n'avez pas les droits pour accéder à cette page</div>
+        <p>Vous n'êtes pas autorisé à voir cette page.</p>
       )}
     </div>
   );

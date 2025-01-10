@@ -19,6 +19,7 @@ import "./styles/filter.css";
 import "./styles/home.css";
 import "./styles/form-rent.css";
 import "./styles/submit-form-admin.css";
+import "./styles/all-users-page.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

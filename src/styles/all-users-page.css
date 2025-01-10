@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.all-users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.title-all-users {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.all-users-table th {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  padding: 1rem;
+}
+
+.all-users-table td {
+  padding: 1rem;
+}
+
+.all-users-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+.total-users {
+  margin-top: 2rem;
+  text-align: center;
+}
