@@ -50,6 +50,7 @@ function AllUsersAdmin() {
       {isAdmin ? (
         <>
           <h1>All Users</h1>
+          <p>Nombre total d'utilisateurs : {users.length}</p>
           <table>
             <thead>
               <tr>
